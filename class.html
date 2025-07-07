@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Assignment Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <h2>ProfAI</h2>
+    <ul>
+      <li><a href="#">Overview</a></li>
+      <li>
+        <select id="classSelect">
+          <option value="">Select Class</option>
+          <option value="CS101">CS101</option>
+          <option value="ENG201">ENG201</option>
+        </select>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="tabs">
+    <button onclick="showTab('upload')">Upload Assignment</button>
+    <button onclick="showTab('inprogress')">In Progress</button>
+    <button onclick="showTab('reviewed')">Feedback</button>
+  </div>
+
+  <section id="upload" class="tab-content">
+    <h3>Upload New Assignment</h3>
+    <textarea id="assignmentText" placeholder="Paste your assignment text here..."></textarea>
+    <button onclick="submitAssignment()">Submit</button>
+  </section>
+
+  <section id="inprogress" class="tab-content" style="display:none;">
+    <h3>Assignment Review In Progress</h3>
+    <p>Your assignment is being analyzed...</p>
+  </section>
+
+  <section id="reviewed" class="tab-content" style="display:none;">
+    <h3>Feedback</h3>
+    <div id="feedbackResult"></div>
+    <button onclick="flagFeedback()">Flag and Send to Professor</button>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
