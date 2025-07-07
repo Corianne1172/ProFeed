@@ -3,20 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Dashboard</title>
+  <title>Overview - Student Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav>
-    <h2>ProfAI</h2>
+    <h2>ProFeed</h2>
     <ul>
-      <li><a href="class.html">Classes ▼</a></li>
+      <li><a href="index.html" class="active">Overview</a></li>
+      <li>
+        <select id="classSelect">
+          <option value="">Select Class</option>
+          <option value="CS101">CS101</option>
+          <option value="ENG201">ENG201</option>
+        </select>
+      </li>
     </ul>
   </nav>
 
-  <main>
-    <h3>Welcome back!</h3>
-    <p>Select a class to get started.</p>
+  <main class="dashboard">
+    <section class="notifications">
+      <h3>Notifications</h3>
+      <ul>
+        <li>📝 New feedback on <strong>Assignment 2</strong> in CS101</li>
+        <li>🚩 Flagged feedback review on <strong>Essay 1</strong> in ENG201</li>
+      </ul>
+    </section>
+    <section class="stats">
+      <h3>Weekly Stats</h3>
+      <ul>
+        <li>Assignments Submitted: <strong>3</strong></li>
+        <li>Feedback Received: <strong>2</strong></li>
+        <li>Flagged Feedbacks: <strong>1</strong></li>
+        <li>Average Grade: <strong>B+</strong></li>
+      </ul>
+    </section>
   </main>
+  <script>
+    // Handle class selection and redirect
+    document.getElementById('classSelect').addEventListener('change', function() {
+      if (this.value) {
+        window.location.href = `class.html?class=${this.value}`;
+      }
+    });
+  </script>
 </body>
 </html>

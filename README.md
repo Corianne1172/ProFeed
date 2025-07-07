@@ -1,4 +1,4 @@
-# 🧠 ProfAI: Professor AI Co-Author Feedback Tool
+# 🧠 ProFeed: Professor AI Co-Author Feedback Tool
 
 A web-based tool designed to help professors provide personalized, course-specific feedback in asynchronous college classes by co-authoring with AI. Built with HTML, CSS, and JavaScript, with optional integration to a LangChain-powered backend.
 
