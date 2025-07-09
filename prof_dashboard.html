@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Professor Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <h2>Class X</h2>
+    <ul>
+      <li><a href="prof_dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="upload_rubric.html">Upload Rubric</a></li>
+      <li>
+        <select id="classSelect">
+          <option value="">Select Class</option>
+          <option value="CS101">CS101</option>
+          <option value="ENG201">ENG201</option>
+        </select>
+      </li>
+    </ul>
+    <div style="float:right; margin-right:30px;">
+      <span>User: xxxxxxxxxx</span>
+      <a href="#" class="logout" style="margin-left:12px;">Logout &#8635;</a>
+    </div>
+  </nav>
+
+  <div class="tabs">
+    <button onclick="showTab('submissions')">Submissions</button>
+    <button onclick="showTab('review')">To Review</button>
+    <button onclick="showTab('flagged')">Flagged Feedback</button>
+  </div>
+
+  <section id="submissions" class="tab-content">
+    <h3>Assignment Submissions</h3>
+    <ul id="submissionList"></ul>
+  </section>
+
+  <section id="review" class="tab-content" style="display:none;">
+    <h3>Assignments to Review</h3>
+    <ul id="reviewList"></ul>
+  </section>
+
+  <section id="flagged" class="tab-content" style="display:none;">
+    <h3>Flagged Feedback</h3>
+    <ul id="flaggedList"></ul>
+  </section>
+
+  <!-- Modal for reviewing submission -->
+  <div id="reviewModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeReviewModal()">&times;</span>
+      <div id="reviewContent"></div>
+      <textarea id="profFeedback" placeholder="Enter feedback..."></textarea>
+      <button onclick="submitProfFeedback()">Submit Feedback</button>
+    </div>
+  </div>
+
+  <!-- Modal for flagged feedback details -->
+  <div id="flaggedModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeFlaggedModal()">&times;</span>
+      <div id="flaggedContent"></div>
+      <button onclick="resolveFlag()">Mark as Resolved</button>
+    </div>
+  </div>
+
+  <script src="prof_dashboard.js"></script>
+</body>
+</html>
