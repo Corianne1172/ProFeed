@@ -28,5 +28,4 @@ Students in asynchronous online classes often wait days for feedback—or never 
 
 ## Website Access
 
-Access the live website at https://corianne1172.github.io/ProFeed.
-https://corianne1172.github.io/ProFeed/login.html
+Access the live website at https://corianne1172.github.io/ProFeed/login.html
