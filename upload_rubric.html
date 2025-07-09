@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload Grading Rubric - ProfAI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <h2>ProfAI</h2>
+    <ul>
+      <li><a href="prof_dashboard.html">Dashboard</a></li>
+      <li><a href="upload_rubric.html" class="active">Upload Rubric</a></li>
+      <li>
+        <select id="classSelect">
+          <option value="">Select Class</option>
+          <option value="CS101">CS101</option>
+          <option value="ENG201">ENG201</option>
+        </select>
+      </li>
+    </ul>
+    <div style="float:right; margin-right:30px;">
+      <span>User: xxxxxxxxxx</span>
+      <a href="#" class="logout" style="margin-left:12px;">Logout &#8635;</a>
+    </div>
+  </nav>
+
+  <main class="add-assignment-container">
+    <h3>Upload Grading Rubric</h3>
+    <form id="rubricForm" enctype="multipart/form-data">
+      <label for="rubricTitle">Rubric Title:</label>
+      <input type="text" id="rubricTitle" name="rubricTitle" required />
+
+      <label for="rubricFile">Upload Rubric File:</label>
+      <input type="file" id="rubricFile" name="rubricFile" accept=".pdf,.doc,.docx,.xlsx,.csv" required />
+
+      <label for="rubricDesc">Rubric Description (optional):</label>
+      <textarea id="rubricDesc" name="rubricDesc" rows="3"></textarea>
+
+      <button type="submit">Upload Rubric</button>
+    </form>
+    <div id="rubricMsg"></div>
+  </main>
+
+  <script>
+    document.getElementById('classSelect').addEventListener('change', function() {
+      if (this.value) {
+        alert('Switched to class: ' + this.value);
+      }
+    });
+
+    document.getElementById('rubricForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Simulate upload
+      document.getElementById('rubricMsg').textContent = "Rubric uploaded successfully!";
+      this.reset();
+    });
+  </script>
+</body>
+</html>
