@@ -17,12 +17,12 @@ app.use('/api', referenceRoutes);
 app.use('/api', assignmentRoutes);
 
 const PORT = process.env.PORT || 3001;
-app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend', 'login.html'));
 });
 
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.listen(PORT, () => {
   console.log(`Express server running on http://localhost:${PORT}`);
