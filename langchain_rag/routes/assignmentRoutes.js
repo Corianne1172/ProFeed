@@ -8,25 +8,24 @@ import OpenAI from 'openai';
 const router = express.Router();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Multer setup
+//Multer setup
 const storage = multer.diskStorage({
   destination: 'data/assignments/',
   filename: (req, file, cb) => cb(null, `${Date.now()}_${file.originalname}`)
 });
 const upload = multer({ storage });
 
-// POST /upload/assignment
 router.post('/upload/assignment', upload.single('file'), async (req, res) => {
   try {
     const filePath = req.file.path;
 
-    // Step 1: Extract student submission
+    //Extract student submission
     const studentText = await extractTextFromPDF(filePath);
 
-    // Step 2: Embed student text
+    //Embed student text
     const studentEmbedding = await getEmbedding(studentText);
 
-    // Step 3: Query Pinecone for similar reference material
+    //Query Pinecone for similar reference material
     const queryResponse = await pineconeIndex.query({
   vector: studentEmbedding,
   topK: 5,
@@ -36,9 +35,9 @@ router.post('/upload/assignment', upload.single('file'), async (req, res) => {
 
     const matchedChunks = queryResponse.matches.map(m => m.metadata.text).join('\n\n');
 
-    // Step 4: Send to OpenAI for comparison
+    //Send to LLM (OpenAI) for comparison
     const prompt = `
-You are an educational assistant.
+You are an educational assistant that is supposed to mimic a professor in college.
 
 A student has submitted the following response:
 
@@ -52,8 +51,6 @@ Please provide feedback on the student's response. Mention:
 - If the response aligns with the reference material
 - Any important ideas that were missed
 - Suggestions for improvement
-
-Write in a friendly, constructive tone.
 `;
 
     const feedbackRes = await openai.chat.completions.create({
@@ -67,7 +64,6 @@ Write in a friendly, constructive tone.
 
     const feedback = feedbackRes.choices[0].message.content;
 
-    // Send final feedback
     res.status(200).json({
       message: '✅ Assignment analyzed with OpenAI',
       feedback
