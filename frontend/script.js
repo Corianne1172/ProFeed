@@ -157,14 +157,14 @@ function formatFeedback(data) {
 
 // Submit assignment (sends to backend for generated feedback)
 async function submitAssignment() {
-  const text = document.getElementById("assignmentText").value;
   const fileInput = document.getElementById("assignmentFile");
   const file = fileInput ? fileInput.files[0] : null;
 
-  if (!text.trim()) {
-    alert("Please enter some assignment text.");
+  if (!file) {
+    alert("Please upload a file.");
     return;
   }
+
   inProgressAssignments.push({
     title: `Assignment ${feedbackAssignments.length + 1}`,
     status: "Analyzing...",
@@ -172,38 +172,35 @@ async function submitAssignment() {
   });
   populateInProgress();
   showTab("inprogress");
-  
+
   const formData = new FormData();
-  formData.append("text", text);
-  if (file) formData.append("file", file);
+  formData.append("file", file);
 
   try {
-  const response = await fetch('/api/upload/assignment', {
-    method: 'POST',
-    body: formData
-  });
-
-  const feedbackText = await response.text();
-
-  if (response.ok) {
-    // Add new feedback to list
-    feedbackAssignments.push({
-      id: feedbackAssignments.length + 1,
-      title: `Assignment ${feedbackAssignments.length + 1}`,
-      feedback: feedbackText 
+    const response = await fetch('/api/upload/assignment', {
+      method: 'POST',
+      body: formData
     });
 
-    document.getElementById("assignmentText").value = "";
-    if (fileInput) fileInput.value = "";
+    const feedbackText = await response.text();
 
-    populateFeedback();
-    showTab("reviewed");
-  } else {
-    alert(feedbackText || "Failed to submit assignment.");
+    if (response.ok) {
+      // Add new feedback to list
+      feedbackAssignments.push({
+        id: feedbackAssignments.length + 1,
+        title: `Assignment ${feedbackAssignments.length + 1}`,
+        feedback: feedbackText
+      });
+
+      if (fileInput) fileInput.value = "";
+
+      populateFeedback();
+      showTab("reviewed");
+    } else {
+      alert(feedbackText || "Failed to submit assignment.");
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+    alert(`Network error: ${error.message}`);
   }
-} catch (error) {
-  console.error("Upload error:", error);
-  alert(`Network error: ${error.message}`);
 }
-}
-
