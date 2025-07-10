@@ -11,7 +11,6 @@
     <h2>ProFeed</h2>
     <ul>
       <li><a href="index.html" class="active">Overview</a></li>
-      <li><a href="login.html" class="logout" style="margin-left:12px;">Logout &#8635;</a></li>
       <li>
         <select id="classSelect">
           <option value="">Select Class</option>
@@ -20,6 +19,10 @@
         </select>
       </li>
     </ul>
+    <div style="float:right; margin-right:30px;">
+      <span>User: student@example.com</span>
+      <a href="login.html" class="logout" style="margin-left:12px;">Logout &#8635;</a>
+    </div>
   </nav>
 
   <main class="dashboard">
@@ -31,15 +34,16 @@
       </ul>
     </section>
     <section class="stats">
-      <h3>Weekly Stats</h3>
+      <h3>Feedback Insights Dashboard</h3>
       <ul>
-        <li>Assignments Submitted: <strong>3</strong></li>
-        <li>Feedback Received: <strong>2</strong></li>
-        <li>Flagged Feedbacks: <strong>1</strong></li>
-        <li>Average Grade: <strong>B+</strong></li>
+        <li><strong>Most Common Strength:</strong> Structure</li>
+        <li><strong>Most Common Weakness:</strong> Citations</li>
+        <li><strong>Average Feedback Sentiment:</strong> Neutral</li>
+        <li><strong>AI Confidence (avg):</strong> 87%</li>
       </ul>
     </section>
   </main>
+
   <script>
     // Handle class selection and redirect
     document.getElementById('classSelect').addEventListener('change', function() {
@@ -50,4 +54,3 @@
   </script>
 </body>
 </html>
-<!-- Updated 07-10-2025 -->
