@@ -24,7 +24,7 @@ Students in asynchronous online classes often wait days for feedback—or never 
 - **Frontend**: HTML, CSS, JavaScript
 - **Prototype Tool**: Figma (low-fi prototype)
 - **Deployment**: GitHub Pages
-- **Backend** LangChain backend for AI feedback generation
+- **Backend** LangChain Retrieval-Augmented Generation (RAG) pipeline using Pinecone for vector storage and Express.js for building API endpoints
 
 ## Website Access
 

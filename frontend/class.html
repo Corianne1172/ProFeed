@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Assignment Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <h2>ProfAI</h2>
+    <ul>
+      <li><a href="index.html">Overview</a></li>
+      <li>
+        <select id="classSelect">
+          <option value="">Select Class</option>
+          <option value="CS101">CS101</option>
+          <option value="ENG201">ENG201</option>
+        </select>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="tabs">
+    <button onclick="showTab('upload')">Upload Assignment</button>
+    <button onclick="showTab('inprogress')">In Progress</button>
+    <button onclick="showTab('reviewed')">Feedback</button>
+  </div>
+
+  <section id="upload" class="tab-content">
+    <h3>Upload New Assignment</h3>
+    <textarea id="assignmentText" placeholder="Paste your assignment text here..."></textarea>
+    <input type="file" id="assignmentFile" />
+    <button onclick="submitAssignment()">Submit</button>
+  </section>
+
+  <section id="inprogress" class="tab-content" style="display:none;">
+    <h3>Assignments In Progress</h3>
+    <ul id="inProgressList"></ul>
+  </section>
+
+  <section id="reviewed" class="tab-content" style="display:none;">
+    <h3>Feedback</h3>
+    <ul id="feedbackList"></ul>
+  </section>
+
+  <!-- Modal for flagging feedback -->
+  <div id="flagModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeFlagModal()">&times;</span>
+      <h4>Flag Feedback</h4>
+      <textarea id="flagComment" placeholder="Enter comments for professor..."></textarea>
+      <button onclick="sendFlag()">Send to Professor</button>
+    </div>
+  </div>
+
+  <!-- Modal for full feedback -->
+  <div id="fullFeedbackModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeFullFeedbackModal()">&times;</span>
+      <div id="fullFeedbackContent"></div>
+      <button onclick="openFlagModal()">Flag Feedback</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
