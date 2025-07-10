@@ -126,7 +126,7 @@ function viewFullFeedback(assignmentId) {
   
   document.getElementById('fullFeedbackContent').innerHTML = `
     <h4>${assignment.title} - Full Feedback</h4>
-    ${formatFeedback(assignment.feedback)}
+    ${feedbackHtml}
   `;
   // Set the flagAssignmentId for modal flagging
   flagAssignmentId = assignmentId;
