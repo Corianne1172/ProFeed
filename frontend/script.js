@@ -119,6 +119,11 @@ function sendFlag() {
 function viewFullFeedback(assignmentId) {
   const assignment = feedbackAssignments.find(a => a.id === assignmentId);
   if (!assignment) return;
+  
+  const feedbackHtml = typeof assignment.feedback === 'string'
+    ? `<p>${assignment.feedback.replace(/\n/g, '<br>')}</p>`
+    : formatFeedback(assignment.feedback);
+  
   document.getElementById('fullFeedbackContent').innerHTML = `
     <h4>${assignment.title} - Full Feedback</h4>
     ${formatFeedback(assignment.feedback)}
@@ -160,8 +165,18 @@ async function submitAssignment() {
     alert("Please enter some assignment text.");
     return;
   }
+  inProgressAssignments.push({
+    title: `Assignment ${feedbackAssignments.length + 1}`,
+    status: "Analyzing...",
+    submitted: new Date().toISOString().split("T")[0]
+  });
+  populateInProgress();
   showTab("inprogress");
   
+  const formData = new FormData();
+  formData.append("text", text);
+  if (file) formData.append("file", file);
+
   try {
     const response = await fetch('/api/upload/assignment', {
       method: 'POST',
@@ -170,10 +185,19 @@ async function submitAssignment() {
 
     const data = await response.json();
 
-    if (response.ok) {
-      alert(data.message || "Assignment submitted!");
+    if (response.ok && data.feedback) {
+      //Add new feedback to list
+      feedbackAssignments.push({
+        id: feedbackAssignments.length + 1,
+        title: `Assignment ${feedbackAssignments.length + 1}`,
+        feedback: data.feedback
+      });
+
       document.getElementById("assignmentText").value = "";
       if (fileInput) fileInput.value = "";
+
+      populateFeedback();
+      showTab("feedback");
     } else {
       alert(data.error || "Failed to submit assignment.");
     }
@@ -182,3 +206,4 @@ async function submitAssignment() {
     alert("Error submitting assignment. Please try again.");
   }
 }
+
