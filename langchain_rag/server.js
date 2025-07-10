@@ -13,10 +13,10 @@ app.use('/api', referenceRoutes);
 app.use('/api', assignmentRoutes);
 
 const PORT = process.env.PORT || 3001;
-app.use(express.static(path.join(process.cwd(), 'frontend')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'frontend', 'login.html'));
+  res.sendFile(path.join(__dirname, '../frontend', 'login.html'));
 });
 
 
