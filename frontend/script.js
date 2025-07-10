@@ -178,32 +178,32 @@ async function submitAssignment() {
   if (file) formData.append("file", file);
 
   try {
-    const response = await fetch('/api/upload/assignment', {
-      method: 'POST',
-      body: formData
+  const response = await fetch('/api/upload/assignment', {
+    method: 'POST',
+    body: formData
+  });
+
+  const feedbackText = await response.text();
+
+  if (response.ok) {
+    // Add new feedback to list
+    feedbackAssignments.push({
+      id: feedbackAssignments.length + 1,
+      title: `Assignment ${feedbackAssignments.length + 1}`,
+      feedback: feedbackText 
     });
 
-    const data = await response.json();
+    document.getElementById("assignmentText").value = "";
+    if (fileInput) fileInput.value = "";
 
-    if (response.ok && data.feedback) {
-      //Add new feedback to list
-      feedbackAssignments.push({
-        id: feedbackAssignments.length + 1,
-        title: `Assignment ${feedbackAssignments.length + 1}`,
-        feedback: data.feedback
-      });
-
-      document.getElementById("assignmentText").value = "";
-      if (fileInput) fileInput.value = "";
-
-      populateFeedback();
-      showTab("feedback");
-    } else {
-      alert(data.error || "Failed to submit assignment.");
-    }
-  } catch (error) {
-    console.error("Upload error:", error);
-    alert("Error submitting assignment. Please try again.");
+    populateFeedback();
+    showTab("feedback");
+  } else {
+    alert(feedbackText || "Failed to submit assignment.");
   }
+} catch (error) {
+  console.error("Upload error:", error);
+  alert(`Network error: ${error.message}`);
+}
 }
 
