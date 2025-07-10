@@ -150,17 +150,35 @@ function formatFeedback(data) {
   `;
 }
 
-// Submit assignment (simulate backend)
-function submitAssignment() {
+// Submit assignment (sends to backend for generated feedback)
+async function submitAssignment() {
   const text = document.getElementById("assignmentText").value;
+  const fileInput = document.getElementById("assignmentFile");
+  const file = fileInput ? fileInput.files[0] : null;
+
   if (!text.trim()) {
     alert("Please enter some assignment text.");
     return;
   }
   showTab("inprogress");
-  // Simulate backend delay
-  setTimeout(() => {
-    alert("Assignment submitted! (Simulated)");
-    // Optionally, update inProgressAssignments here
-  }, 1000);
+  
+  try {
+    const response = await fetch('/api/upload/assignment', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message || "Assignment submitted!");
+      document.getElementById("assignmentText").value = "";
+      if (fileInput) fileInput.value = "";
+    } else {
+      alert(data.error || "Failed to submit assignment.");
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+    alert("Error submitting assignment. Please try again.");
+  }
 }

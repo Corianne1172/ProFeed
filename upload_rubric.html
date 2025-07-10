@@ -49,12 +49,41 @@
       }
     });
 
-    document.getElementById('rubricForm').addEventListener('submit', function(e) {
+    document.getElementById('rubricForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       // Simulate upload
-      document.getElementById('rubricMsg').textContent = "Rubric uploaded successfully!";
-      this.reset();
-    });
-  </script>
+      const form = e.target;
+    const formData = new FormData(form);  // grabs all inputs including file
+
+    // Optionally append class info if needed by backend:
+    const classSelect = document.getElementById('classSelect');
+    if (classSelect.value) {
+      formData.append('class', classSelect.value);
+    }
+
+    // Clear previous messages and show loading
+    const msgDiv = document.getElementById('rubricMsg');
+    msgDiv.textContent = 'Uploading rubric...';
+
+    try {
+      const response = await fetch('/api/upload/reference', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        msgDiv.textContent = data.message || 'Rubric uploaded successfully!';
+        form.reset();
+      } else {
+        msgDiv.textContent = data.error || 'Failed to upload rubric.';
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      msgDiv.textContent = 'Error uploading rubric. Please try again.';
+    }
+  });
+</script>
 </body>
 </html>
