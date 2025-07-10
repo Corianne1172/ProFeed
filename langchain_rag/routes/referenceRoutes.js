@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post('/upload/reference', upload.single('file'), async (req, res) => {
+router.post('/upload/reference', upload.single('rubricFile'), async (req, res) => {
   try {
     const text = await extractTextFromPDF(req.file.path);
     const chunks = chunkText(text);
