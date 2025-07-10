@@ -197,7 +197,7 @@ async function submitAssignment() {
     if (fileInput) fileInput.value = "";
 
     populateFeedback();
-    showTab("feedback");
+    showTab("reviewed");
   } else {
     alert(feedbackText || "Failed to submit assignment.");
   }
