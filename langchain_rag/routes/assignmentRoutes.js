@@ -52,7 +52,7 @@ Please provide feedback on the student's response. Mention:
 - Any important ideas that were missed
 - Suggestions for improvement
 
-Talk to the student as if it were a direct message.
+Talk to the student as if it were a direct message. Avoid using placeholders.
 `;
 
     const feedbackRes = await openai.chat.completions.create({
