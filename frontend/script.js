@@ -121,8 +121,8 @@ function viewFullFeedback(assignmentId) {
   if (!assignment) return;
   
   const feedbackHtml = typeof assignment.feedback === 'string'
-    ? `<p>${assignment.feedback.replace(/\n/g, '<br>')}</p>`
-    : formatFeedback(assignment.feedback);
+  ? formatRawFeedback(assignment.feedback)
+  : formatFeedback(assignment.feedback);
   
   document.getElementById('fullFeedbackContent').innerHTML = `
     <h4>${assignment.title} - Full Feedback</h4>
@@ -203,4 +203,17 @@ async function submitAssignment() {
     console.error("Upload error:", error);
     alert(`Network error: ${error.message}`);
   }
+}
+
+function formatRawFeedback(feedbackText) {
+  const paragraphs = feedbackText.split('\n\n');
+  return paragraphs.map(p => {
+    if (/^\d+\.\s/.test(p.trim())) {
+      const items = p.trim().split('\n').map(line => {
+        return `<li>${line.replace(/^\d+\.\s/, '')}</li>`;
+      }).join('');
+      return `<ol>${items}</ol>`;
+    }
+    return `<p>${p}</p>`;
+  }).join('');
 }
