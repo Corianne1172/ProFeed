@@ -37,7 +37,7 @@ router.post('/upload/assignment', upload.single('file'), async (req, res) => {
 
     //Send to LLM (OpenAI) for comparison
     const prompt = `
-You are an educational assistant that is supposed to mimic a professor in college.
+You are an educational assistant that is supposed to mimic a professor in college. Avoid using any em dashes.
 
 A student has submitted the following response:
 
