@@ -119,19 +119,32 @@ function sendFlag() {
 function viewFullFeedback(assignmentId) {
   const assignment = feedbackAssignments.find(a => a.id === assignmentId);
   if (!assignment) return;
-  
-  const feedbackHtml = typeof assignment.feedback === 'string'
-  ? formatRawFeedback(assignment.feedback)
-  : formatFeedback(assignment.feedback);
-  
+
+  // Extract the markdown string — if feedback is wrapped in a JSON string, parse it
+  let text = assignment.feedback;
+  try {
+    const parsed = JSON.parse(text);
+    if (parsed.feedback) {
+      text = parsed.feedback;
+    }
+  } catch (e) {
+    // Not JSON, so leave text as-is
+  }
+
+  // Convert the markdown/text into HTML
+  const feedbackHtml = formatRawFeedback(text);
+
+  // Render into modal
   document.getElementById('fullFeedbackContent').innerHTML = `
     <h4>${assignment.title} - Full Feedback</h4>
     ${feedbackHtml}
   `;
-  // Set the flagAssignmentId for modal flagging
+
+  // Set up flagging context and show modal
   flagAssignmentId = assignmentId;
   document.getElementById('fullFeedbackModal').style.display = 'flex';
 }
+
 function closeFullFeedbackModal() {
   document.getElementById('fullFeedbackModal').style.display = 'none';
   flagAssignmentId = null;
