@@ -51,6 +51,8 @@ Please provide feedback on the student's response. Mention:
 - If the response aligns with the reference material
 - Any important ideas that were missed
 - Suggestions for improvement
+
+Talk to the student as if it were a direct message.
 `;
 
     const feedbackRes = await openai.chat.completions.create({
