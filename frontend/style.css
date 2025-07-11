@@ -251,3 +251,15 @@ body {
   margin-top: 16px;
   font-size: 0.9em;
 }
+
+.ai-practice-area {
+  background-color: #f4f4f4;
+  padding: 16px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px dashed #999;
+}
+
+.ai-practice-area h3 {
+  margin-bottom: 10px;
+}
