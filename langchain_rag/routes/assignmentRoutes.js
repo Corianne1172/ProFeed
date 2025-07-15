@@ -56,7 +56,7 @@ Talk to the student as if it were a direct message. Avoid using placeholders.
 `;
 
     const feedbackRes = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
       messages: [
         { role: 'system', content: 'You are a helpful academic assistant.' },
         { role: 'user', content: prompt }
