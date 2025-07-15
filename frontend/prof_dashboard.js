@@ -1,3 +1,14 @@
+//load sidebar nav
+fetch('sidebar.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('sidebar-container').innerHTML = html;
+
+    const btn = document.getElementById('toggle-btn');
+    const sidebar = document.getElementById('sidebar');
+    btn.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+  });
+
 // Dummy data for demonstration
 const submissions = [
     { id: 1, student: "Alice", title: "Essay 2", status: "Submitted", submitted: "2025-07-05" },
