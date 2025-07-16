@@ -126,3 +126,8 @@ async function submitAssignment() {
     alert(`Upload error: ${err.message}`);
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('submitAssignmentBtn');
+  btn.addEventListener('click', submitAssignment);
+});
