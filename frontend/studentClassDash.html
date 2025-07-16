@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="header">
+    <div class="header-content">
+      <div class="header-title">Profeed</div>
+      <div class="header-user">
+        <span>User: xxxxxxxxxx</span>
+        <a href="login.html" class="logout">Logout &#8635;</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebar" class="collapsed">
+    <button id="toggle-btn">☰</button>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="class.html">Classes</a>
+      <a href="studComingSoon.html">Settings</a>
+      <a href="studComingSoon.html">Help</a>
+    </nav>
+  </div>
+
+  <main id="classDashMain">
+    <h1 id="classTitle">Class Dashboard</h1>
+    <h2>Assignments</h2>
+    <section id="submitAssignment">
+      <h3>Submit Assignment</h3>
+      <input type="file" id="assignmentFile" />
+      <button onclick="submitAssignment()">Submit</button>
+    </section>
+
+    <section id="inProgressList">
+      <h3>In Progress</h3>
+      <ul id="inProgressList"></ul>
+    </section>
+
+    <section id="feedbackList">
+      <h3>Reviewed Assignments</h3>
+      <ul id="feedbackList"></ul>
+    </section>
+
+    <h2>Practice</h2>
+    <div class="practice-card" onclick="window.location.href='studComingSoon.html'">
+    <h3>AI-Generated practice</h3>
+  </div>
+  </main>
+
+  <!-- Full Feedback Modal -->
+  <div id="fullFeedbackModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeFullFeedbackModal()">&times;</span>
+      <div id="fullFeedbackContent"></div>
+      <button onclick="openFlagModal()">Flag Feedback</button>
+    </div>
+  </div>
+
+  <!-- Flag Modal -->
+  <div id="flagModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeFlagModal()">&times;</span>
+      <h3>Flag Feedback</h3>
+      <textarea id="flagComment" placeholder="Explain your concern..."></textarea>
+      <button onclick="sendFlag()">Submit</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/upload.js"></script>
+  <script>
+    // Set class name in header from URL
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const className = params.get('className') || 'Unknown Class';
+      document.getElementById('classTitle').textContent = `${className} Dashboard`;
+    });
+  </script>
+</body>
+</html>

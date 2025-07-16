@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>View Classes - Professor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="header">
+    <div class="header-content">
+      <div class="header-title">Profeed</div>
+      <div class="header-user">
+        <span>User: xxxxxxxxxx</span>
+        <a href="login.html" class="logout">Logout &#8635;</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebar" class="collapsed">
+    <button id="toggle-btn">☰</button>
+    <nav>
+      <a href="prof_dashboard.html">Dashboard</a>
+      <a href="prof_classes.html">Classes</a>
+      <a href="profComingSoon.html">Settings</a>
+      <a href="profComingSoon.html">Help</a>
+    </nav>
+  </div>
+
+  <main class="content">
+    <div id="classesContainer"></div>
+  </main>
+  
+  <script src="prof_dashboard.js"></script>
+</body>
+</html>

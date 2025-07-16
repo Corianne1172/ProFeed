@@ -111,3 +111,273 @@ const submissions = [
     closeFlaggedModal();
   }
   
+  // Toggle sidebar collapse
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("toggle-btn");
+  const sidebar = document.getElementById("sidebar");
+
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("collapsed");
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const ctx = document.getElementById('professorChart').getContext('2d');
+
+  const professorChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Students', 'AI Feedback generated', 'AI Practice Sets generated'],
+      datasets: [{
+        label: 'Count',
+        data: [150, 462, 311],
+        backgroundColor: ['#3498db', '#2ecc71', '#f39c12'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 20
+          },
+          title: {
+            display: true,
+            text: 'Quantity'
+          }
+        }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Student Activity',
+          font: {
+            size: 18
+          }
+        },
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+});
+
+const classesContainer = document.getElementById('classesContainer');
+
+// Example data store (you can replace this with backend data later)
+let classes = [];
+
+// Render classes or placeholder
+function renderClasses() {
+  classesContainer.innerHTML = '';
+
+  if (classes.length === 0) {
+    // Show placeholder
+    const placeholder = document.createElement('div');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'No classes created yet. Click the + button to create a class.';
+    classesContainer.appendChild(placeholder);
+
+    // Add plus button fixed on screen to create class
+    addAddClassButton();
+  } else {
+    // Remove any existing add button (to avoid duplicates)
+    const existingAddBtn = document.querySelector('.add-class-btn');
+    if (existingAddBtn) existingAddBtn.remove();
+
+    // Render each class card
+    classes.forEach((cls, index) => {
+      const card = document.createElement('div');
+      card.className = 'class-card';
+
+      // Title
+      const titleLink = document.createElement('a');
+      titleLink.href = `prof_classdash.html?className=${encodeURIComponent(cls.name)}`;
+      titleLink.textContent = cls.name;
+      titleLink.classList.add('class-link');  // For styling if you want
+      card.appendChild(titleLink);
+
+      // Description if any
+      if (cls.description) {
+        const desc = document.createElement('p');
+        desc.textContent = cls.description;
+        card.appendChild(desc);
+      }
+
+      // Three dots menu
+      const menuDots = document.createElement('div');
+      menuDots.className = 'menu-dots';
+      menuDots.textContent = '⋮';
+      card.appendChild(menuDots);
+
+      // Delete menu hidden by default
+      const deleteMenu = document.createElement('div');
+      deleteMenu.className = 'delete-menu';
+      deleteMenu.textContent = 'Delete Class';
+      card.appendChild(deleteMenu);
+
+      // Toggle delete menu on dots click
+      menuDots.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = deleteMenu.style.display === 'block';
+        closeAllDeleteMenus();
+        deleteMenu.style.display = isVisible ? 'none' : 'block';
+      });
+
+      // Delete class on menu click
+      deleteMenu.addEventListener('click', () => {
+        if (confirm(`Delete class "${cls.name}"? This action cannot be undone.`)) {
+          classes.splice(index, 1);
+          renderClasses();
+        }
+      });
+
+      classesContainer.appendChild(card);
+    });
+
+    // Add plus button on top right corner to add more classes
+    addAddClassButton();
+  }
+}
+
+// Close all delete menus (for UX)
+function closeAllDeleteMenus() {
+  document.querySelectorAll('.delete-menu').forEach(menu => {
+    menu.style.display = 'none';
+  });
+}
+
+// Add the plus button to add classes
+function addAddClassButton() {
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-class-btn';
+  addBtn.textContent = '+';
+  document.body.appendChild(addBtn);
+
+  addBtn.addEventListener('click', () => {
+    const name = prompt('Enter new class name:');
+    if (name && name.trim() !== '') {
+      const description = prompt('Enter class description (optional):');
+      classes.push({ name: name.trim(), description: description ? description.trim() : '' });
+      renderClasses();
+    }
+  });
+}
+
+// Hide delete menus if clicking outside
+document.body.addEventListener('click', () => {
+  closeAllDeleteMenus();
+});
+
+// Initial render
+renderClasses();
+
+function createClassElement(classId, className) {
+  const div = document.createElement('div');
+  div.classList.add('class-item');
+  div.dataset.classId = classId;
+
+  const link = document.createElement('a');
+  link.href = `prof_classdash.html?classId=${classId}`;
+  link.textContent = className;
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('delete-class');
+  deleteBtn.textContent = '⋮';
+  // Add delete event listener here
+
+  div.appendChild(link);
+  div.appendChild(deleteBtn);
+
+  return div;
+}
+
+function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const className = getQueryParam('className');
+      if (className) {
+        document.getElementById('classTitle').textContent = `Class Dashboard: ${className}`;
+        document.getElementById('classNameDisplay').textContent = `Class: ${className}`;
+      } else {
+        document.getElementById('classTitle').textContent = 'No class selected.';
+        document.getElementById('classNameDisplay').textContent = 'Class: None';
+      }
+    });
+
+    // Set class title from URL param 'className'
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const className = params.get('className') || 'Unknown Class';
+      document.getElementById('classTitle').textContent = `${className} Dashboard`;
+
+      // Handle class rubric upload
+      document.getElementById('uploadClassRubricBtn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('classRubricFile');
+        if (!fileInput.files.length) {
+          alert('Please select a file to upload.');
+          return;
+        }
+        const file = fileInput.files[0];
+        const status = document.getElementById('classRubricUploadStatus');
+        status.textContent = 'Uploading...';
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/api/upload/class-rubric', {
+            method: 'POST',
+            body: formData
+          });
+          if (response.ok) {
+            status.textContent = 'Class rubric uploaded successfully!';
+            fileInput.value = '';
+          } else {
+            const err = await response.text();
+            status.textContent = `Upload failed: ${err}`;
+          }
+        } catch (e) {
+          status.textContent = `Upload error: ${e.message}`;
+        }
+      });
+
+      // Handle assignment rubric upload
+      document.getElementById('uploadAssignmentRubricBtn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('assignmentRubricFile');
+        if (!fileInput.files.length) {
+          alert('Please select a file to upload.');
+          return;
+        }
+        const file = fileInput.files[0];
+        const status = document.getElementById('assignmentRubricUploadStatus');
+        status.textContent = 'Uploading...';
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/api/upload/assignment-rubric', {
+            method: 'POST',
+            body: formData
+          });
+          if (response.ok) {
+            status.textContent = 'Assignment rubric uploaded successfully!';
+            fileInput.value = '';
+          } else {
+            const err = await response.text();
+            status.textContent = `Upload failed: ${err}`;
+          }
+        } catch (e) {
+          status.textContent = `Upload error: ${e.message}`;
+        }
+      });
+    });

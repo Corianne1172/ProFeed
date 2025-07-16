@@ -4,27 +4,52 @@
   <meta charset="UTF-8" />
   <title>Professor Dashboard</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <nav>
-    <h2>Class X</h2>
-    <ul>
-      <li><a href="prof_dashboard.html" class="active">Dashboard</a></li>
-      <li><a href="upload_rubric.html">Upload Rubric</a></li>
-      <li>
-        <select id="classSelect">
-          <option value="">Select Class</option>
-          <option value="CS101">CS101</option>
-          <option value="ENG201">ENG201</option>
-        </select>
-      </li>
-    </ul>
-    <div style="float:right; margin-right:30px;">
-      <span>User: xxxxxxxxxx</span>
-      <a href="login.html" class="logout" style="margin-left:12px;">Logout &#8635;</a>
+<header id="header">
+    <div class="header-content">
+      <div class="header-title">Profeed</div>
+      <div class="header-user">
+        <span>User: xxxxxxxxxx</span>
+        <a href="login.html" class="logout">Logout &#8635;</a>
+      </div>
     </div>
-  </nav>
+  </header>
+<body>
+  <div id="sidebar" class="collapsed">
+    <button id="toggle-btn">☰</button>
+    <nav>
+      <a href="prof_dashboard.html">Dashboard</a>
+      <a href="prof_classes.html">Classes</a>
+      <a href="profComingSoon.html">Settings</a>
+      <a href="profComingSoon.html">Help</a>
+    </nav>
+  </div>
+<main>
+  <div class="dashboard">
+    <section class="notifications">
+      <h3>Notifications</h3>
+      <ul>
+        <li>📝 Feedback to review on <strong>Assignment 2</strong> in CS101</li>
+        <li>🚩 Assignment: <strong>Essay 1</strong> in ENG201 is now live!</li>
+        <li>📝 Multiple feedback to review on <strong>Assignment 1</strong> in CS350</li>
+      </ul>
+    </section>
 
+    <section class="stats">
+      <h3>Feedback Overview</h3>
+      <ul>
+      </ul>
+    </section>
+  </div>
+  <div class="chart-container">
+  <canvas id="professorChart"></canvas>
+  </div>
+
+  </main>
+  
+<!--
+<main>
   <div class="tabs">
     <button onclick="showTab('submissions')">Submissions</button>
     <button onclick="showTab('review')">To Review</button>
@@ -45,7 +70,8 @@
     <h3>Flagged Feedback</h3>
     <ul id="flaggedList"></ul>
   </section>
-
+</main>
+-->
   <!-- Modal for reviewing submission -->
   <div id="reviewModal" class="modal" style="display:none;">
     <div class="modal-content">
@@ -68,4 +94,5 @@
   <script src="prof_dashboard.js"></script>
 </body>
 </html>
+
 <!-- Updated 07-10-2025 -->

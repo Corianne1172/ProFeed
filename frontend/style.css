@@ -1,6 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
   }
   nav {
     background-color: #2d3e50;
@@ -42,13 +45,20 @@ body {
     display: flex;
     gap: 40px;
     margin-top: 30px;
+    align-items: flex-start;
   }
   .notifications, .stats {
     flex: 1;
     background: #f5f7fa;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
+    height: 200px;
+    overflow-y: auto;
   }
+  .notifications h3, .stats h3 {
+  margin-bottom: 16px;
+}
+
   .notifications ul, .stats ul {
     padding-left: 20px;
   }
@@ -213,6 +223,7 @@ body {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  height:fit-content;
 }
 
 .auth-container h2 {
@@ -262,4 +273,492 @@ body {
 
 .ai-practice-area h3 {
   margin-bottom: 10px;
+}
+
+/* Sidebar styles */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Layout */
+body {
+  display: flex;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+#sidebar {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 60px);
+  background-color: #2d3e50;
+  color: white;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+#sidebar.collapsed {
+  width: 60px;
+}
+#sidebar.collapsed nav {
+  display: none;
+}
+#toggle-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: white;
+}
+
+#sidebar h3 {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+#sidebar ul {
+  list-style: none;
+}
+#sidebar ul, #sidebar select {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#sidebar ul li {
+  margin-bottom: 15px;
+}
+#sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 8px 10px;
+}
+#sidebar ul li a:hover {
+  background-color: #34495e;
+}
+
+#sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 60px; 
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#sidebar nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 10px;
+  display: block;
+  border-radius: 4px;
+}
+
+#sidebar nav a:hover {
+  background-color: #34495e;
+}
+
+/* Main content */
+main {
+  margin-left: 220px;
+  padding: 60px 60px 60px;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+#sidebar.collapsed ~ main {
+  margin-left: 60px;
+}
+#sidebar.collapsed #sidebarContent {
+  display: none;
+}
+
+/* Tabs */
+.tabs {
+  margin-bottom: 20px;
+}
+.tabs button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tabs button:hover {
+  background-color: #2980b9;
+}
+
+/* Tab content */
+.tab-content ul {
+  list-style: none;
+}
+.tab-content li {
+  background-color: #ecf0f1;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+  width: 400px;
+  max-width: 90%;
+}
+.close {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #2d3e50;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1001;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.header-user {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+}
+
+.header-user a.logout {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-user a.logout:hover {
+  text-decoration: underline;
+}
+
+#professorChart {
+  display: flex;
+  margin: 30px auto 0;
+  max-width: 70%;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.chart-container {
+  display: flex;
+  justify-content: center;  /* center horizontally */
+  align-items: flex-start;      /* center vertically */
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+}
+.content {
+  padding: 100px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#classesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  position: relative;
+}
+
+.class-card {
+  position: relative;
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 8px;
+  width: 250px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.class-card h4 {
+  margin: 0 0 10px 0;
+}
+
+.placeholder {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  width: 100%;
+  padding: 50px 0;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+}
+
+.add-class-btn {
+  position: fixed;
+  top: 100px;
+  right: 40px;
+  font-size: 36px;
+  background: #2980b9;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  line-height: 45px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  user-select: none;
+}
+
+.menu-dots {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 24px;
+  color: red;
+  user-select: none;
+}
+
+.menu-dots:hover {
+  opacity: 0.7;
+}
+
+.delete-menu {
+  display: none;
+  position: absolute;
+  top: 36px;
+  right: 12px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #c0392b;
+}
+
+.delete-menu:hover {
+  background: #fddede;
+}
+
+.class-card:hover .delete-menu {
+  display: block;
+}
+
+#comingsoon {
+    flex: 1;
+    background: #f5f7fa;
+    padding: 80px;
+    border-radius: 12px;
+    height: 200px;
+    overflow-y: auto;
+    max-width: fit-content;
+    margin-top: 60px;
+}
+.class-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.class-card {
+  background: #f1f1f1;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.class-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.class-card h3 {
+  margin-top: 0;
+  color: #0077cc;
+}
+
+.placeholder {
+  padding: 2rem;
+  font-style: italic;
+  color: #666;
+}
+
+#studClasses h2{
+  padding: 40px;
+  padding-left: 0;
+  font-size:xx-large;
+}
+
+#classDashMain h1 {
+  padding: 40px;
+  padding-left: 0;
+  font-size:xx-large;
+}
+
+#submitAssignment {
+  background: white;
+  padding: 40px;
+  padding-left: 0;
+}
+#classDashMain h1 {
+  padding: 40px;
+  padding-left: 0;
+  font-size:xx-large;
+}
+
+#classDashMain h2 {
+  padding: 20px;
+  padding-left: 0;
+  font-size:x-large;
+}
+
+main#classDashMain section {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.practice-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.practice-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* --- Professor Class Dashboard Styling --- */
+
+main.Profcontent {
+  padding: 1rem;
+  max-width: 900px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+main.Profcontent section {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.05);
+  background-color: #fafafa;
+}
+main.Profcontent h1 {
+  padding: 40px;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #222;
+}
+main.Profcontent h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #222;
+}
+
+main.Prfcontent label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #444;
+}
+
+main.Profcontent input[type="file"] {
+  margin-bottom: 0.5rem;
+}
+
+main.Profcontent button {
+  cursor: pointer;
+  background-color: #0077ff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+main.Profcontent button:hover {
+  background-color: #005fcc;
+}
+
+#classRubricUploadStatus,
+#assignmentRubricUploadStatus {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #006600; /* green for success */
 }
