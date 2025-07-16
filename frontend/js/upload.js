@@ -93,19 +93,19 @@ async function submitAssignment() {
       body: formData
     });
 
-    const feedbackText = await response.text();
+    const result = await response.json();
 
     if (response.ok) {
       feedbackAssignments.push({
         id: feedbackAssignments.length + 1,
         title: `Assignment ${feedbackAssignments.length + 1}`,
-        feedback: JSON.parse(feedbackText)
+        feedback: result.feedback
       });
 
       fileInput.value = "";
       populateFeedback();
     } else {
-      alert(feedbackText || "Failed to submit assignment.");
+      alert(result.error || "Failed to submit assignment.");
     }
   } catch (err) {
     console.error(err);
@@ -113,7 +113,9 @@ async function submitAssignment() {
   }
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('submitAssignmentBtn');
   btn.addEventListener('click', submitAssignment);
+  populateFeedback();
 });
