@@ -315,69 +315,58 @@ function getQueryParam(param) {
 
     // Set class title from URL param 'className'
     document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const className = params.get('className') || 'Unknown Class';
-      document.getElementById('classTitle').textContent = `${className} Dashboard`;
+  // Set class name from URL
+  const params = new URLSearchParams(window.location.search);
+  const className = params.get('className') || 'Unknown Class';
 
-      // Handle class rubric upload
-      document.getElementById('uploadClassRubricBtn').addEventListener('click', async () => {
-        const fileInput = document.getElementById('classRubricFile');
-        if (!fileInput.files.length) {
-          alert('Please select a file to upload.');
-          return;
+  const classTitleEl = document.getElementById('classTitle');
+  const classNameDisplay = document.getElementById('classNameDisplay');
+
+  if (classTitleEl) classTitleEl.textContent = `${className} Dashboard`;
+  if (classNameDisplay) classNameDisplay.textContent = `Class: ${className}`;
+
+  // Handle rubric upload
+  const uploadBtn = document.getElementById('uploadClassRubricBtn');
+  const fileInput = document.getElementById('classRubricFile');
+  const statusMsg = document.getElementById('classRubricUploadStatus');
+
+  if (uploadBtn && fileInput && statusMsg) {
+    uploadBtn.addEventListener('click', async () => {
+      if (!fileInput.files.length) {
+        alert('Please select a rubric file to upload.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('rubricFile', file);
+
+      // Append class name if selected
+      if (className) {
+      formData.append('class', className);
+      }
+
+
+      statusMsg.textContent = 'Uploading rubric...';
+
+      try {
+        const response = await fetch('/api/upload/reference', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          statusMsg.textContent = result.message || 'Rubric uploaded successfully!';
+          fileInput.value = ''; // Reset the input
+        } else {
+          statusMsg.textContent = result.error || 'Failed to upload rubric.';
         }
-        const file = fileInput.files[0];
-        const status = document.getElementById('classRubricUploadStatus');
-        status.textContent = 'Uploading...';
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-          const response = await fetch('/api/upload/class-rubric', {
-            method: 'POST',
-            body: formData
-          });
-          if (response.ok) {
-            status.textContent = 'Class rubric uploaded successfully!';
-            fileInput.value = '';
-          } else {
-            const err = await response.text();
-            status.textContent = `Upload failed: ${err}`;
-          }
-        } catch (e) {
-          status.textContent = `Upload error: ${e.message}`;
-        }
-      });
-
-      // Handle assignment rubric upload
-      document.getElementById('uploadAssignmentRubricBtn').addEventListener('click', async () => {
-        const fileInput = document.getElementById('assignmentRubricFile');
-        if (!fileInput.files.length) {
-          alert('Please select a file to upload.');
-          return;
-        }
-        const file = fileInput.files[0];
-        const status = document.getElementById('assignmentRubricUploadStatus');
-        status.textContent = 'Uploading...';
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-          const response = await fetch('/api/upload/assignment-rubric', {
-            method: 'POST',
-            body: formData
-          });
-          if (response.ok) {
-            status.textContent = 'Assignment rubric uploaded successfully!';
-            fileInput.value = '';
-          } else {
-            const err = await response.text();
-            status.textContent = `Upload failed: ${err}`;
-          }
-        } catch (e) {
-          status.textContent = `Upload error: ${e.message}`;
-        }
-      });
+      } catch (err) {
+        console.error('Upload error:', err);
+        statusMsg.textContent = 'Upload failed. Please try again.';
+      }
     });
+  }
+});

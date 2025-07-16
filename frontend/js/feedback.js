@@ -1,4 +1,4 @@
-const feedbackAssignments = [
+let feedbackAssignments = [
   {
     id: 1,
     title: "Assignment 1",
