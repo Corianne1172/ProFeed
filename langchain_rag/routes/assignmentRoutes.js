@@ -37,7 +37,7 @@ router.post('/upload/assignment', upload.single('file'), async (req, res) => {
 
     //Send to LLM (OpenAI) for comparison
     const prompt = `
-You are an educational assistant that is supposed to mimic a professor in college. Avoid using any em dashes.
+You are an educational assistant that is supposed to mimic a professor in college. Avoid using any em dashes and avoid placeholders such as [your name].
 
 A student has submitted the following response:
 
@@ -52,7 +52,7 @@ Please provide feedback on the student's response. Mention:
 - Any important ideas that were missed
 - Suggestions for improvement
 
-Talk to the student as if it were a direct message. Avoid using placeholders.
+Talk to the student as if it were a direct message from you. It should be a cohesive message in paragraph / sentence form.
 `;
 
     const feedbackRes = await openai.chat.completions.create({
