@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment Overview</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header id="header">
+    <div class="header-content">
+      <div class="header-title">Profeed</div>
+      <div class="header-user">
+        <span>User: xxxxxxxxxx</span>
+        <a href="login.html" class="logout">Logout &#8635;</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="sidebar" class="collapsed">
+    <button id="toggle-btn">☰</button>
+    <nav>
+      <a href="prof_dashboard.html">Dashboard</a>
+      <a href="prof_classes.html">Classes</a>
+      <a href="profComingSoon.html">Settings</a>
+      <a href="profComingSoon.html">Help</a>
+    </nav>
+  </div>
+<main id="assignmentDash">
+    <div class="back-button-container">
+    <h1 id="pageTitle">Assignment Overview</h1>
+    <a href="prof_classdash.html" class="back-button">← Back</a>
+    </div>
+
+  <section id="submissionsSection">
+    <h2 id="submissionsTitle">Submissions</h2>
+    <ul id="submissionList"></ul>
+  </section>
+
+  <section id="needReviewSection">
+    <h2 id="needReviewTitle">Need Review</h2>
+    <ul id="reviewList"></ul>
+  </section>
+
+  <section id="flaggedFeedbackSection">
+    <h2 id="flaggedFeedbackTitle">Flagged Feedback</h2>
+    <ul id="flaggedList"></ul>
+  </section>
+
+  <!-- Review Modal -->
+  <div id="reviewModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <div id="reviewModalContent" class="modal-content">
+      <button id="reviewModalCloseBtn" class="modal-close" aria-label="Close review modal" onclick="closeReviewModal()">&times;</button>
+      <div id="reviewContent"></div>
+      <textarea id="profFeedback" rows="4" placeholder="Enter your feedback here"></textarea>
+      <button id="submitFeedbackBtn" onclick="submitProfFeedback()">Submit Feedback</button>
+    </div>
+  </div>
+
+  <!-- Flagged Modal -->
+  <div id="flaggedModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="flaggedModalTitle">
+    <div id="flaggedModalContent" class="modal-content">
+      <button id="flaggedModalCloseBtn" class="modal-close" aria-label="Close flagged modal" onclick="closeFlaggedModal()">&times;</button>
+      <div id="flaggedContent"></div>
+      <button id="resolveFlagBtn" onclick="resolveFlag()">Mark as Resolved</button>
+    </div>
+  </div>
+</main>
+  <script src="prof_dashboard.js"></script>
+</body>
+</html>
+

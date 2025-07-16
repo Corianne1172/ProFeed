@@ -329,28 +329,154 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Example assignments data
+  // --- Assignments list rendering ---
   const assignments = [
-    { id: 101, name: "Essay 1", className: "English101" },
-    { id: 102, name: "Project 2", className: "CS350" },
-    { id: 103, name: "Lab Report", className: "Biology202" }
+    { id: 1, title: "Essay 1" },
+    { id: 2, title: "Project 1" },
+    { id: 3, title: "Essay 2" },
   ];
 
-  const assignmentList = document.getElementById('assignmentList');
-  if (!assignmentList) return;
+  function renderAssignments() {
+    const ul = document.getElementById('assignmentsList');
+    if (!ul) return;
+    ul.innerHTML = '';
 
-  assignments.forEach(assignment => {
-    const li = document.createElement('li');
+    assignments.forEach(assignment => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '0.5rem';
 
-    // Create clickable link to the assignment overview page
-    const a = document.createElement('a');
-    a.textContent = assignment.name;
-    a.href = `assignment_overview.html?assignmentId=${assignment.id}&className=${encodeURIComponent(assignment.className)}`;
+      const a = document.createElement('a');
+      a.href = `assignment_overview.html?assignmentId=${assignment.id}`;
+      a.textContent = assignment.title;
+      a.style.color = 'black';
+      a.style.textDecoration = 'none';
+      a.addEventListener('mouseover', () => a.style.textDecoration = 'underline');
+      a.addEventListener('mouseout', () => a.style.textDecoration = 'none');
 
-    li.appendChild(a);
-    assignmentList.appendChild(li);
-  });
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  }
+
+  renderAssignments();
+document.addEventListener('DOMContentLoaded', () => {
+  // Parse assignmentId and assignmentName from URL query (for demo)
+  const params = new URLSearchParams(window.location.search);
+  const assignmentId = params.get('assignmentId') || '0';
+  const assignmentName = 'Assignment #' + assignmentId;  // In real app, fetch assignment name from API
+
+  document.getElementById('assignmentTitle').textContent = assignmentName;
+
+  // Sample data arrays — these would be fetched from your backend normally
+  const submissions = [
+    { id: 1, student: "Alice", title: "Essay 2", status: "Submitted", submitted: "2025-07-05" },
+    { id: 2, student: "Bob", title: "Project 1", status: "Submitted", submitted: "2025-07-06" }
+  ];
+
+  const toReview = [
+    { id: 1, student: "Alice", title: "Essay 2", text: "Lorem ipsum dolor sit amet..." }
+  ];
+
+  const flaggedFeedbacks = [
+    { id: 1, student: "Bob", assignment: "Essay 1", comment: "Feedback unclear", details: "Needs more explanation on thesis." }
+  ];
+
+  // Populate Submissions list
+  function populateSubmissions() {
+    const ul = document.getElementById('submissionList');
+    ul.innerHTML = '';
+    submissions.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = `${s.title} by ${s.student} — ${s.status} on ${s.submitted}`;
+      ul.appendChild(li);
+    });
+  }
+
+  // Populate Need Review list
+  function populateReview() {
+    const ul = document.getElementById('reviewList');
+    ul.innerHTML = '';
+    toReview.forEach(a => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${a.title}</strong> by ${a.student} 
+                      <button onclick="openReviewModal(${a.id})">Review</button>`;
+      ul.appendChild(li);
+    });
+  }
+
+  // Populate Flagged Feedback list
+  function populateFlagged() {
+    const ul = document.getElementById('flaggedList');
+    ul.innerHTML = '';
+    flaggedFeedbacks.forEach(f => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${f.assignment}</strong> (by ${f.student}) 
+                      <button onclick="openFlaggedModal(${f.id})">View</button>`;
+      ul.appendChild(li);
+    });
+  }
+
+  populateSubmissions();
+  populateReview();
+  populateFlagged();
+
+  // --- Review Modal ---
+  let currentReviewId = null;
+  window.openReviewModal = function(id) {
+    const assignment = toReview.find(a => a.id === id);
+    if (!assignment) return;
+    const reviewContent = document.getElementById('reviewContent');
+    const profFeedback = document.getElementById('profFeedback');
+
+    reviewContent.innerHTML = `
+      <h3>${assignment.title} by ${assignment.student}</h3>
+      <p>${assignment.text}</p>
+    `;
+    profFeedback.value = '';
+    currentReviewId = id;
+    document.getElementById('reviewModal').style.display = 'flex';
+  };
+
+  window.closeReviewModal = function() {
+    document.getElementById('reviewModal').style.display = 'none';
+    currentReviewId = null;
+  };
+
+  window.submitProfFeedback = function() {
+    const profFeedback = document.getElementById('profFeedback').value.trim();
+    if (!profFeedback) {
+      alert('Please enter feedback before submitting.');
+      return;
+    }
+    alert(`Feedback submitted for review ID ${currentReviewId}: ${profFeedback}`);
+    closeReviewModal();
+  };
+
+  // --- Flagged Modal ---
+  let currentFlaggedId = null;
+  window.openFlaggedModal = function(id) {
+    const flagged = flaggedFeedbacks.find(f => f.id === id);
+    if (!flagged) return;
+    const flaggedContent = document.getElementById('flaggedContent');
+
+    flaggedContent.innerHTML = `
+      <h3>${flagged.assignment} - Flagged by ${flagged.student}</h3>
+      <p><strong>Comment:</strong> ${flagged.comment}</p>
+      <p><strong>Details:</strong> ${flagged.details}</p>
+    `;
+    currentFlaggedId = id;
+    document.getElementById('flaggedModal').style.display = 'flex';
+  };
+
+  window.closeFlaggedModal = function() {
+    document.getElementById('flaggedModal').style.display = 'none';
+    currentFlaggedId = null;
+  };
+
+  window.resolveFlag = function() {
+    alert(`Flag with ID ${currentFlaggedId} marked as resolved.`);
+    closeFlaggedModal();
+  };
 });
 
 
