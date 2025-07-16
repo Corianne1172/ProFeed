@@ -2,25 +2,13 @@ let feedbackAssignments = [
   {
     id: 1,
     title: "Assignment 1",
-    feedback: {
-      thesis: "Clear and concise.",
-      structure: "Well-organized.",
-      grammar: "Minor errors.",
-      citations: "Properly cited.",
-      analysis: "Strong analysis."
-    }
-  },
-  {
+    feedback: "Clear and concise. Well-organized. Minor grammar errors. Properly cited. Strong analysis."
+  },  
+    {
     id: 2,
     title: "Essay 1",
-    feedback: {
-      thesis: "Needs improvement.",
-      structure: "Lacks coherence.",
-      grammar: "Several mistakes.",
-      citations: "Missing sources.",
-      analysis: "Superficial."
+    feedback: "Needs improvement. Lacks coherence. Several grammar mistakes. Missing sources. Analysis was superficial."
     }
-  }
 ];
 
 function populateFeedback() {
@@ -54,15 +42,10 @@ function viewFullFeedback(assignmentId) {
   document.getElementById('fullFeedbackModal').style.display = 'flex';
 }
 
-function formatFeedback(data) {
-  return `
-    <p><strong>Thesis:</strong> ${data.thesis}</p>
-    <p><strong>Structure:</strong> ${data.structure}</p>
-    <p><strong>Grammar:</strong> ${data.grammar}</p>
-    <p><strong>Citations:</strong> ${data.citations}</p>
-    <p><strong>Analysis:</strong> ${data.analysis}</p>
-  `;
+function formatFeedback(text) {
+  return `<p>${text}</p>`;
 }
+
 
 function closeFullFeedbackModal() {
   document.getElementById('fullFeedbackModal').style.display = 'none';
@@ -72,7 +55,11 @@ let flagAssignmentId = null;
 
 function openFlagModal(assignmentId = null) {
   if (assignmentId) flagAssignmentId = assignmentId;
-  document.getElementById('fullFeedbackModal')?.style?.display = 'none';
+  const modal = document.getElementById('fullFeedbackModal');
+if (modal && modal.style) {
+  modal.style.display = 'none';
+}
+
   document.getElementById('flagComment').value = '';
   document.getElementById('flagModal').style.display = 'flex';
 }
@@ -117,7 +104,6 @@ async function submitAssignment() {
 
       fileInput.value = "";
       populateFeedback();
-      showTab("reviewed");
     } else {
       alert(feedbackText || "Failed to submit assignment.");
     }
