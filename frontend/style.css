@@ -868,3 +868,34 @@ button#submitFeedbackBtn:hover, button#resolveFlagBtn:hover {
 .back-button:hover {
   background-color: #ccc;
 }
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.logo {
+  height: 42px;
+  width: auto;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.brand-tagline {
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
