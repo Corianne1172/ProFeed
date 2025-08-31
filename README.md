@@ -4,7 +4,7 @@ A web-based tool designed to help professors provide personalized, course-specif
 
 ## 💡 Project Vision
 
-Students in asynchronous online classes often wait days for feedback—or never get personalized help at all. ProfAI helps bridge that gap by letting professors upload rubrics and comments once, and letting AI assist in drafting personalized feedback for student submissions. Professors stay in control. Students stay supported.
+Students in asynchronous online classes often wait days for feedback, or never get personalized help at all. Profeed helps bridge that gap by letting professors upload rubrics and comments once, and letting AI assist in drafting personalized feedback for student submissions. Professors stay in control. Students stay supported.
 
 ## 🚀 Features
 
